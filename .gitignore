@@ -1,0 +1,5 @@
+/build
+/dist
+/nbproject
+/lib
+build.xml
