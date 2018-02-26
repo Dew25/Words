@@ -50,6 +50,10 @@ public class MemoWordsCommand implements ActionCommand{
             return RoutingManager.getRoute("path.page.login");
         }
         List<Word> words = wordFacade.findAll(regUser);
+        if(words.isEmpty()){
+            request.setAttribute("info", "Нет ни одного слова для изучения");
+            return RoutingManager.getRoute("path.page.memoWords");
+        }
         RandomWord rw =new RandomWord();
         Word word = rw.getRandomWord(words);
         request.setAttribute("word", word);

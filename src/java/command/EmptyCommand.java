@@ -18,7 +18,7 @@ public class EmptyCommand implements ActionCommand{
     @Override
     public String execute(HttpServletRequest request) {
         request.setAttribute("info", "Hello from Controller");
-        return RoutingManager.getRoute("path.page.empty");
+        return RoutingManager.getRoute("path.page.memoWords");
     }
     
 }

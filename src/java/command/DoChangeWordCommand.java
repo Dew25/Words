@@ -9,6 +9,7 @@ import command.creator.RoutingManager;
 import entity.User;
 import entity.Word;
 import interfaces.ActionCommand;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -23,22 +24,24 @@ import session.WordFacade;
  *
  * @author Melnikov
  */
-public class EditWordCommand implements ActionCommand{
-
+public class DoChangeWordCommand implements ActionCommand{
+private UserFacade userFacade;
 private WordFacade wordFacade;
 
-    public EditWordCommand() {
+    public DoChangeWordCommand() {
         try {
             Context context;
             context = new InitialContext();
-            
+            this.userFacade = (UserFacade) context.lookup("java:module/UserFacade");
             this.wordFacade = (WordFacade) context.lookup("java:module/WordFacade");
         } catch (NamingException ex) {
-            Logger.getLogger(EditWordCommand.class.getName()).log(Level.SEVERE, "Не удалось нацти бин.", ex);
+            Logger.getLogger(DoChangeWordCommand.class.getName()).log(Level.SEVERE, "Не удалось найти бин.", ex);
         }
     }
+    
     @Override
     public String execute(HttpServletRequest request) {
+       
         HttpSession session = request.getSession(false);
         if(session == null){
             return RoutingManager.getRoute("path.page.login");
@@ -48,11 +51,22 @@ private WordFacade wordFacade;
             return RoutingManager.getRoute("path.page.login");
         }
         String id = request.getParameter("id");
+        String word = request.getParameter("word");
+        String trans = request.getParameter("trans");
+        String phrases = request.getParameter("phrases");
         if(id != null && !id.isEmpty()){
-            Word editWord = wordFacade.find(new Long(id));
-            request.setAttribute("editWord", editWord);
+            Word editWord=wordFacade.find(new Long(id));
+            editWord.setWord(word);
+            editWord.setTrans(trans);
+            editWord.setPhrases(phrases);
+            wordFacade.edit(editWord);
+        }else{
+            request.setAttribute("info", "Возможно не указано слово для изменения!");
         }
-        return RoutingManager.getRoute("path.page.editWord");
+        List<Word> words = wordFacade.findAll(regUser);
+        request.setAttribute("words", words);
+        return RoutingManager.getRoute("path.page.memoWords");
+        
     }
     
 }

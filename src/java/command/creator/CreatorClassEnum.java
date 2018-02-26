@@ -9,6 +9,8 @@ import command.AddNewWordCommand;
 import command.DeleteWordCommand;
 import command.AddWordCommand;
 import command.AdminCommand;
+import command.DoChangeWordCommand;
+import command.EditWordCommand;
 import command.EmptyCommand;
 import command.EnterCommand;
 import command.LoginCommand;
@@ -28,6 +30,8 @@ public enum CreatorClassEnum {
     MEMOWORDS{{this.command = new MemoWordsCommand();}},
     ADDWORD{{this.command = new AddWordCommand();}},
     ADDNEWWORD{{this.command = new AddNewWordCommand();}},
+    EDITWORD{{this.command = new EditWordCommand();}},
+    DOCHANGEWORD{{this.command = new DoChangeWordCommand();}},
     REGISTRATION{{this.command = new RegistrationCommand();}},
     NEWUSER{{this.command = new NewUserCommand();}},
     ENTER{{this.command = new EnterCommand();}},

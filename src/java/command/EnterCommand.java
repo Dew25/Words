@@ -67,9 +67,12 @@ private WordFacade wordFacade;
         
         request.setAttribute("info", "Hello from MemoWordsCommand");
         List<Word> words = wordFacade.findAll(regUser);
-        RandomWord rw = new RandomWord();
-        request.setAttribute("word", rw.getRandomWord(words));
-        
+        if(words.isEmpty()){
+            request.setAttribute("info", "Нет ни одного слова для изучения");
+        }else{
+            RandomWord rw = new RandomWord();
+            request.setAttribute("word", rw.getRandomWord(words));
+        }
         return RoutingManager.getRoute("path.page.memoWords");
     }
     
