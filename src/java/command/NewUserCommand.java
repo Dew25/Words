@@ -29,6 +29,7 @@ private UserFacade userFacade;
             Context context;
             context = new InitialContext();
             this.userFacade = (UserFacade) context.lookup("java:module/UserFacade");
+            
         } catch (NamingException ex) {
             Logger.getLogger(NewUserCommand.class.getName()).log(Level.SEVERE, "Не удалось нацти бин.", ex);
         }

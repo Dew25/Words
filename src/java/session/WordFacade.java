@@ -31,10 +31,13 @@ public class WordFacade extends AbstractFacade<Word> {
         super(Word.class);
     }
     
-    public List<Word> findAll(User regUser){
-        return em.createQuery("SELECT w FROM Word w WHERE w.user=:regUser")
+    public List<Word> findAll(User regUser, Boolean active){
+        return em.createQuery("SELECT w FROM Word w WHERE w.user=:regUser AND w.active=:active")
                 .setParameter("regUser", regUser)
+                .setParameter("active", active)
                 .getResultList();
     }
-    
+    public List<Word> findAll(User regUser){
+        return findAll(regUser, true);
+    }
 }

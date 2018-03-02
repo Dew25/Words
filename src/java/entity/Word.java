@@ -24,6 +24,7 @@ public class Word {
     private String word;
     private String trans;
     private String phrases;
+    private Boolean active;
     @OneToOne
     private User user;
 
@@ -35,6 +36,7 @@ public class Word {
         this.trans = trans;
         this.phrases = phrases;
         this.user = user;
+        this.active=true;
     }
 
     public Long getId() {
@@ -109,6 +111,14 @@ public class Word {
             return false;
         }
         return true;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
 }
