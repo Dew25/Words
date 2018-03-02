@@ -5,6 +5,7 @@
  */
 package command;
 
+import classes.AccessUser;
 import classes.RandomWord;
 import command.creator.RoutingManager;
 import entity.User;
@@ -41,14 +42,13 @@ public class MemoWordsCommand implements ActionCommand{
     @Override
     public String execute(HttpServletRequest request) {
         
-        HttpSession session = request.getSession(false);
-        if(session == null){
+        AccessUser au = new AccessUser();
+        User regUser = au.onAccsess(request);
+        if(regUser == null){
+            request.setAttribute("info", "Войдите!");
             return RoutingManager.getRoute("path.page.login");
         }
-        User regUser = (User) session.getAttribute("regUser");
-        if(regUser==null){
-            return RoutingManager.getRoute("path.page.login");
-        }
+            
         List<Word> words = wordFacade.findAll(regUser);
         if(words.isEmpty()){
             request.setAttribute("info", "Нет ни одного слова для изучения");

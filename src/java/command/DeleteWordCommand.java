@@ -5,6 +5,7 @@
  */
 package command;
 
+import classes.AccessUser;
 import classes.RandomWord;
 import command.creator.RoutingManager;
 import entity.User;
@@ -40,12 +41,10 @@ public class DeleteWordCommand implements ActionCommand{
     
     @Override
     public String execute(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if(session == null){
-            return RoutingManager.getRoute("path.page.login");
-        }
-        User regUser = (User) session.getAttribute("regUser");
-        if(regUser==null){
+        AccessUser au = new AccessUser();
+        User regUser = au.onAccsess(request);
+        if(regUser == null){
+            request.setAttribute("info", "Войдите!");
             return RoutingManager.getRoute("path.page.login");
         }
         String id = request.getParameter("id");

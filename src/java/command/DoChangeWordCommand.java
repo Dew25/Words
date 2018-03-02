@@ -5,6 +5,7 @@
  */
 package command;
 
+import classes.RandomWord;
 import command.creator.RoutingManager;
 import entity.User;
 import entity.Word;
@@ -64,7 +65,13 @@ private WordFacade wordFacade;
             request.setAttribute("info", "Возможно не указано слово для изменения!");
         }
         List<Word> words = wordFacade.findAll(regUser);
-        request.setAttribute("words", words);
+        if(words.isEmpty()){
+            request.setAttribute("info", "Нет ни одного слова для изучения");
+            return RoutingManager.getRoute("path.page.memoWords");
+        }
+        RandomWord rw =new RandomWord();
+        Word word1 = rw.getRandomWord(words);
+        request.setAttribute("word", word1);
         return RoutingManager.getRoute("path.page.memoWords");
         
     }

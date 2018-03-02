@@ -18,7 +18,6 @@
             <h1>Добавить слово!</h1>
             ${info}
             <hr>
-
             <form action="controller?command=addNewWord" method="POST">
                 <div class="form-group">
                     <label for="user-word">Слово</label>
