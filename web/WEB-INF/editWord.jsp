@@ -21,7 +21,7 @@
 
             <form action="controller?command=doChangeWord" method="POST">
                 <div class="form-group">
-                    <input type="hidden" name="id"  value="${editWord.id}">
+                    <input type="hidden" name="word_id"  value="${editWord.id}">
                     <label for="user-word">Слово</label>
                     <input type="text" name="word" class="form-control" id="user-word" value="${editWord.word}">
 

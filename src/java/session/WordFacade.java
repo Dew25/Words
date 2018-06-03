@@ -32,12 +32,44 @@ public class WordFacade extends AbstractFacade<Word> {
     }
     
     public List<Word> findAll(User regUser, Boolean active){
-        return em.createQuery("SELECT w FROM Word w WHERE w.user=:regUser AND w.active=:active")
+        if(active){
+            return em.createQuery("SELECT w FROM Word w WHERE w.user=:regUser AND w.active=:active")
                 .setParameter("regUser", regUser)
                 .setParameter("active", active)
                 .getResultList();
+        }else{
+            return em.createQuery("SELECT w FROM Word w WHERE w.user=:regUser")
+                .setParameter("regUser", regUser)
+                .getResultList();
+        }
+        
     }
     public List<Word> findAll(User regUser){
         return findAll(regUser, true);
+    }
+
+    public int deactiveWord(User regUser, boolean active) {
+        try {
+            return  em.createQuery("UPDATE Word w SET w.active=:active WHERE w.id=:id AND w.active=:active")
+                .setParameter("active", active)
+                .setParameter("id", regUser.getId())
+                .executeUpdate();
+        } catch (Exception e) {
+            return -1;
+        }
+        
+    }
+
+    public int remove(String wordId, User regUser) {
+        try {
+            em.createQuery("DELETE Word w WHERE w.id = :wordId AND w.user=:regUser")
+                .setParameter("wordId", new Long(wordId))
+                .setParameter("regUser", regUser)
+                .executeUpdate();
+            return 1;
+        } catch (Exception e) {
+            return -1;
+        }
+            
     }
 }

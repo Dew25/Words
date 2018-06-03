@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Melnikov
  */
-public class AccessUser {
-    public User onAccsess(HttpServletRequest request){
+public class SessionUserLocator {
+    public User getUser(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if(session == null){
             return null;

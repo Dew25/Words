@@ -54,8 +54,10 @@ private WordFacade wordFacade;
         String word = request.getParameter("word");
         String trans = request.getParameter("trans");
         String phrases = request.getParameter("phrases");
-        Word newWord = new Word(word, trans, phrases, regUser);
-        wordFacade.create(newWord);
+        if(word != null || !word.isEmpty() || trans != null || !trans.isEmpty()){
+            Word newWord = new Word(word, trans, phrases, regUser);
+            wordFacade.create(newWord);
+        }
         List<Word> words = wordFacade.findAll(regUser);
         request.setAttribute("words", words);
         return RoutingManager.getRoute("path.page.addWord");

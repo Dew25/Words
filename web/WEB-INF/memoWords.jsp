@@ -14,14 +14,14 @@
         <title>Запоминаем слова</title>
     </head>
     <body>
-<div class="container col-md-4">
-<div class="alert alert-primary" role="alert">
-  ${info}
-</div>
-            <form action="controller?command=addNewWord" method="POST">
+        <div class="container col-md-4">
+        <div class="alert alert-primary" role="alert">
+          ${info}
+        </div>
+            <form action="controller?command=memoWords" method="POST">
                 <button type="button" class="btn btn-primary" onclick="showTrans()">Перевод</button>
-                <button  type="button" class="btn btn-primary"><a href="controller?command=memoWords">Следующее слово</a></button>
-                <button type="button" class="btn btn-primary"><a href="controller?command=deleteWord&id=${word.id}">Выучил</a></button>
+                <button  type="button" class="btn btn-primary"><a href="controller?command=memoWords&word_id=${word.id}">Следующее слово</a></button>
+                <button type="button" class="btn btn-primary"><a href="controller?command=memoWords&deactiveWordId=${word.id}">Выучил</a></button>
                 <button type="button" class="btn btn-primary"><a href="controller?command=editWord&id=${word.id}">Изменить слово</a></button>
                 <button type="button" class="btn btn-primary"><a href="controller?command=logout">Выход</a></button>
                 <hr>
@@ -37,11 +37,8 @@
                         <textarea  class="form-control" name="phrases" id="user-phrases">${word.phrases}</textarea>
                     </div>
                 </div>
-                
-                
             </form>
-                <script src="js/memoWords.js"></script>
         </div>
-        
+         <script src="js/memoWords.js"></script>
     </body>
 </html>

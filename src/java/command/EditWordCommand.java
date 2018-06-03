@@ -5,7 +5,7 @@
  */
 package command;
 
-import classes.AccessUser;
+import classes.SessionUserLocator;
 import command.creator.RoutingManager;
 import entity.User;
 import entity.Word;
@@ -16,8 +16,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import session.UserFacade;
 import session.WordFacade;
 
 /**
@@ -40,8 +38,8 @@ private WordFacade wordFacade;
     }
     @Override
     public String execute(HttpServletRequest request) {
-        AccessUser au = new AccessUser();
-        User regUser = au.onAccsess(request);
+        SessionUserLocator sul = new SessionUserLocator();
+        User regUser = sul.getUser(request);
         if(regUser == null){
             request.setAttribute("info", "Войдите!");
             return RoutingManager.getRoute("path.page.login");

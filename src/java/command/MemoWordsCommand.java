@@ -5,8 +5,9 @@
  */
 package command;
 
-import classes.AccessUser;
-import classes.RandomWord;
+import classes.ActivatorWord;
+import classes.SessionUserLocator;
+import classes.RandomWordLocator;
 import command.creator.RoutingManager;
 import entity.User;
 import entity.Word;
@@ -18,7 +19,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import session.WordFacade;
 
 /**
@@ -42,8 +42,8 @@ public class MemoWordsCommand implements ActionCommand{
     @Override
     public String execute(HttpServletRequest request) {
         
-        AccessUser au = new AccessUser();
-        User regUser = au.onAccsess(request);
+        SessionUserLocator sul = new SessionUserLocator();
+        User regUser = sul.getUser(request);
         if(regUser == null){
             request.setAttribute("info", "Войдите!");
             return RoutingManager.getRoute("path.page.login");
@@ -54,8 +54,19 @@ public class MemoWordsCommand implements ActionCommand{
             request.setAttribute("info", "Нет ни одного слова для изучения");
             return RoutingManager.getRoute("path.page.memoWords");
         }
-        RandomWord rw =new RandomWord();
-        Word word = rw.getRandomWord(words);
+        
+        
+        String deactiveWordId = request.getParameter("deactiveWordId");
+        if(deactiveWordId != null){
+            ActivatorWord aw = new ActivatorWord();
+            aw.setActive(Boolean.FALSE, deactiveWordId, regUser);
+        }
+        String wordId = request.getParameter("word_id");
+        if(wordId == null){
+            wordId="";
+        }
+        RandomWordLocator rwl =new RandomWordLocator();
+        Word word = rwl.getRandomWord(wordId,regUser);
         request.setAttribute("word", word);
         
         return RoutingManager.getRoute("path.page.memoWords");

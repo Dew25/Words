@@ -6,9 +6,8 @@
 package command.creator;
 
 import command.AddNewWordCommand;
-import command.DeleteWordCommand;
 import command.AddWordCommand;
-import command.AdminCommand;
+import command.ListWordsCommand;
 import command.DoChangeWordCommand;
 import command.EditWordCommand;
 import command.EmptyCommand;
@@ -35,9 +34,8 @@ public enum CreatorClassEnum {
     REGISTRATION{{this.command = new RegistrationCommand();}},
     NEWUSER{{this.command = new NewUserCommand();}},
     ENTER{{this.command = new EnterCommand();}},
-    ADMIN{{this.command = new AdminCommand();}},
+    LISTWORDS{{this.command = new ListWordsCommand();}},
     LOGOUT{{this.command = new LogoutCommand();}},
-    DELETEWORD{{this.command = new DeleteWordCommand();}},
     ;
     ActionCommand command;
     public ActionCommand getActionCommand(){

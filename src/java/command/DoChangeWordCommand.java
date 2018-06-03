@@ -5,7 +5,8 @@
  */
 package command;
 
-import classes.RandomWord;
+import classes.RandomWordLocator;
+import classes.SessionUserLocator;
 import command.creator.RoutingManager;
 import entity.User;
 import entity.Word;
@@ -43,20 +44,17 @@ private WordFacade wordFacade;
     @Override
     public String execute(HttpServletRequest request) {
        
-        HttpSession session = request.getSession(false);
-        if(session == null){
-            return RoutingManager.getRoute("path.page.login");
-        }
-        User regUser = (User) session.getAttribute("regUser");
+        SessionUserLocator sul = new SessionUserLocator();
+        User regUser = sul.getUser(request);
         if(regUser==null){
             return RoutingManager.getRoute("path.page.login");
         }
-        String id = request.getParameter("id");
+        String wordId = request.getParameter("word_id");
         String word = request.getParameter("word");
         String trans = request.getParameter("trans");
         String phrases = request.getParameter("phrases");
-        if(id != null && !id.isEmpty()){
-            Word editWord=wordFacade.find(new Long(id));
+        if(wordId != null && !wordId.isEmpty()){
+            Word editWord=wordFacade.find(new Long(wordId));
             editWord.setWord(word);
             editWord.setTrans(trans);
             editWord.setPhrases(phrases);
@@ -69,9 +67,9 @@ private WordFacade wordFacade;
             request.setAttribute("info", "Нет ни одного слова для изучения");
             return RoutingManager.getRoute("path.page.memoWords");
         }
-        RandomWord rw =new RandomWord();
-        Word word1 = rw.getRandomWord(words);
-        request.setAttribute("word", word1);
+        RandomWordLocator rwl =new RandomWordLocator();
+        Word w = rwl.getRandomWord(wordId,regUser);
+        request.setAttribute("word", w);
         return RoutingManager.getRoute("path.page.memoWords");
         
     }

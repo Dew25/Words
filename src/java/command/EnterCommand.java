@@ -5,7 +5,8 @@
  */
 package command;
 
-import classes.RandomWord;
+
+import classes.RandomWordLocator;
 import command.creator.RoutingManager;
 import entity.User;
 import entity.Word;
@@ -70,8 +71,8 @@ private WordFacade wordFacade;
         if(words.isEmpty()){
             request.setAttribute("info", "Нет ни одного слова для изучения");
         }else{
-            RandomWord rw = new RandomWord();
-            request.setAttribute("word", rw.getRandomWord(words));
+            RandomWordLocator rw = new RandomWordLocator();
+            request.setAttribute("word", rw.getRandomWord("",regUser));
         }
         return RoutingManager.getRoute("path.page.memoWords");
     }
